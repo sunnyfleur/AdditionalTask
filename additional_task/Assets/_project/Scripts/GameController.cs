@@ -1,26 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-    public GameObject molePrefab; 
-    public GameObject hammerPrefab; 
-    public GameObject vfxPrefab; 
-    public float moleActiveTime = 1.5f; 
+    public GameObject molePrefab;
+    public GameObject hammerPrefab;
+    public GameObject vfxPrefab;
+    public float moleActiveTime = 1.5f;
     public float spawnDelay = 2.0f;
-    public float riseTime = 0.5f; 
+    public float riseTime = 0.5f;
     public int maxMolesAtOnce = 3;
-    public Text scoreText;
+    public TMP_Text scoreText;
 
-    private List<GameObject> activeMoles = new List<GameObject>(); 
+    private List<GameObject> activeMoles = new List<GameObject>();
     private int score = 0;
-    private Transform[] spawnPoints; 
+    private Transform[] spawnPoints;
 
-    private GridSpawner gridSpawner; 
+    private GridSpawner gridSpawner;
 
-    private GameObject hammerInstance; 
+    private GameObject hammerInstance;
 
     void Start()
     {
@@ -86,7 +87,7 @@ public class GameController : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        mole.transform.position = targetPosition; 
+        mole.transform.position = targetPosition;
     }
     public void MoleHit(GameObject mole)
     {
@@ -115,6 +116,6 @@ public class GameController : MonoBehaviour
 
     void UpdateScore()
     {
-        //scoreText.text = "Score: " + score.ToString();
+        scoreText.text = score.ToString()+" Points";
     }
 }
