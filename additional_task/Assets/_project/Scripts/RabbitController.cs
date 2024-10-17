@@ -10,6 +10,6 @@ public class RabbitController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        gameController.MoleHit(this.gameObject);
+        gameController.RabbitHit(this.gameObject);
     }
 }

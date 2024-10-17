@@ -6,16 +6,16 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-    public GameObject molePrefab;
+    public GameObject rabbitPrefab;
     public GameObject hammerPrefab;
     public GameObject vfxPrefab;
-    public float moleActiveTime = 1.5f;
+    public float rabbitActiveTime = 1.5f;
     public float spawnDelay = 2.0f;
     public float riseTime = 0.5f;
-    public int maxMolesAtOnce = 3;
+    public int maxRabbitAtOnce = 3;
     public TMP_Text scoreText;
 
-    private List<GameObject> activeMoles = new List<GameObject>();
+    private List<GameObject> activeRabbits = new List<GameObject>();
     private int score = 0;
     private Transform[] spawnPoints;
 
@@ -32,33 +32,33 @@ public class GameController : MonoBehaviour
         hammerInstance = Instantiate(hammerPrefab);
         hammerInstance.SetActive(false);
 
-        StartCoroutine(SpawnMoles());
+        StartCoroutine(SpawnRabbit());
     }
-    IEnumerator SpawnMoles()
+    IEnumerator SpawnRabbit()
     {
         while (true)
         {
             yield return new WaitForSeconds(spawnDelay);
 
-            if (activeMoles.Count < maxMolesAtOnce)
+            if (activeRabbits.Count < maxRabbitAtOnce)
             {
-                int numMolesToSpawn = Random.Range(1, maxMolesAtOnce - activeMoles.Count + 1);
+                int numRabbitsToSpawn = Random.Range(1, maxRabbitAtOnce - activeRabbits.Count + 1);
 
-                for (int i = 0; i < numMolesToSpawn; i++)
+                for (int i = 0; i < numRabbitsToSpawn; i++)
                 {
-                    SpawnRandomMole();
+                    SpawnRandomRabbit();
                 }
             }
         }
     }
-    void SpawnRandomMole()
+    void SpawnRandomRabbit()
     {
         int randomIndex = Random.Range(0, spawnPoints.Length);
 
         bool isPositionOccupied = false;
-        foreach (GameObject mole in activeMoles)
+        foreach (GameObject rabbit in activeRabbits)
         {
-            if (mole.transform.position == spawnPoints[randomIndex].position)
+            if (rabbit.transform.position == spawnPoints[randomIndex].position)
             {
                 isPositionOccupied = true;
                 break;
@@ -70,47 +70,47 @@ public class GameController : MonoBehaviour
             Vector3 spawnPosition = spawnPoints[randomIndex].position;
             Vector3 hiddenPosition = new Vector3(spawnPosition.x, spawnPosition.y - 1.0f, spawnPosition.z);
 
-            GameObject newMole = Instantiate(molePrefab, hiddenPosition, Quaternion.identity);
-            activeMoles.Add(newMole);
-            StartCoroutine(MoveMoleUp(newMole, spawnPosition, riseTime));
-            StartCoroutine(RemoveMoleAfterTime(newMole, moleActiveTime + riseTime));
+            GameObject newRabbit = Instantiate(rabbitPrefab, hiddenPosition, Quaternion.identity);
+            activeRabbits.Add(newRabbit);
+            StartCoroutine(MoveRabbitUp(newRabbit, spawnPosition, riseTime));
+            StartCoroutine(RemoveRabbitAfterTime(newRabbit, rabbitActiveTime + riseTime));
         }
     }
-    IEnumerator MoveMoleUp(GameObject mole, Vector3 targetPosition, float duration)
+    IEnumerator MoveRabbitUp(GameObject rabbit, Vector3 targetPosition, float duration)
     {
-        Vector3 startPosition = mole.transform.position;
+        Vector3 startPosition = rabbit.transform.position;
         float elapsedTime = 0;
 
         while (elapsedTime < duration)
         {
-            mole.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
+            rabbit.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        mole.transform.position = targetPosition;
+        rabbit.transform.position = targetPosition;
     }
-    public void MoleHit(GameObject mole)
+    public void RabbitHit(GameObject rabbit)
     {
-        if (activeMoles.Contains(mole))
+        if (activeRabbits.Contains(rabbit))
         {
             score++;
             UpdateScore();
             hammerInstance.SetActive(true);
-            hammerInstance.GetComponent<HammerController>().ShowHammerAtPosition(mole.transform.position);
-            Instantiate(vfxPrefab, mole.transform.position, Quaternion.identity);
-            activeMoles.Remove(mole);
-            Destroy(mole);
+            hammerInstance.GetComponent<HammerController>().ShowHammerAtPosition(rabbit.transform.position);
+            Instantiate(vfxPrefab, rabbit.transform.position, Quaternion.identity);
+            activeRabbits.Remove(rabbit);
+            Destroy(rabbit);
         }
     }
 
-    IEnumerator RemoveMoleAfterTime(GameObject mole, float delay)
+    IEnumerator RemoveRabbitAfterTime(GameObject rabbit, float delay)
     {
         yield return new WaitForSeconds(delay);
 
-        if (activeMoles.Contains(mole))
+        if (activeRabbits.Contains(rabbit))
         {
-            activeMoles.Remove(mole);
-            Destroy(mole);
+            activeRabbits.Remove(rabbit);
+            Destroy(rabbit);
         }
     }
 
