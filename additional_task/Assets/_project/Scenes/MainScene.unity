@@ -1267,15 +1267,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0613fcd811edae7428ae390d9a243ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  molePrefab: {fileID: 7927400200923494503, guid: 604018ed2318dec4f8e2417287833469,
+  rabbitPrefab: {fileID: 7927400200923494503, guid: 604018ed2318dec4f8e2417287833469,
     type: 3}
   hammerPrefab: {fileID: 9060529034810196000, guid: 74d8b9db735aec5449bf9f5f22b65a7c,
     type: 3}
   vfxPrefab: {fileID: 1655525123159182, guid: 7d83a1337fcb308499d6e7e8b1cb52d6, type: 3}
-  moleActiveTime: 1.5
+  rabbitActiveTime: 1.5
   spawnDelay: 2
   riseTime: 0.5
-  maxMolesAtOnce: 3
+  maxRabbitAtOnce: 3
   scoreText: {fileID: 625557528}
 --- !u!4 &1016107974
 Transform:
